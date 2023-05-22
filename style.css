@@ -1,0 +1,126 @@
+
+body, html{
+    padding: 0;
+    margin: 0;
+    background-color: green;
+    user-select: none;
+    overflow: hidden;
+}
+
+.beerline {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 20px;
+    bottom: 10px;
+}
+.beerrow{
+    flex-direction: row;
+}
+.selectables {
+    position: relative;
+    width: 140%;
+    left: -20%;
+    right: 20%;
+    height: 30%;
+    bottom: auto;
+    top: auto;
+}
+#blA {
+    left: 0;
+}
+#blB {
+    right: 0;
+}
+.beerspot {
+    height: 12.5%;
+    display: flex;
+    cursor: pointer;
+}
+.beerspot > img {
+    display: none;
+    margin-top: -2vh;
+}
+
+.beerspot > .beer {
+    display: block;
+}
+
+.beerrow > .beerspot{
+    height: 100%;
+    width: 12.5%;
+}
+.menu {
+    display: none;
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    right: 20%;
+    left: 20%;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1vw;
+    z-index: 100;
+}
+
+#StartupActions {
+    display: flex;
+}
+.menutitle{
+    text-align: center;
+    font-size: 6vw;
+
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1vw;
+}
+.actionbutton {
+    font-size: 3vw;
+    background-color: rgba(86, 86, 86, 0.44);
+    border-radius: 3vw;
+    padding: 3vw;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+.actionbutton:hover{
+    background-color: rgba(225, 225, 225, 0.44);
+
+}
+
+input{
+    font-size: 3vw;
+    background-color: rgba(255, 255, 255, 0.94);
+    border-radius: 3vw;
+    padding: 1vw;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+#start-continue{
+    display: none;
+}
+
+.actor{
+    position: absolute;
+    width: 110%;
+    padding-top: 40%;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 6px #000, 0 0 6px #000,0 0 6px #000,0 0 6px #000,0 0 6px #000,0 0 6px #000,0 0 6px #000;
+    transform: rotate(15deg);
+
+
+}
+#bottomtext{
+    position: absolute;
+    bottom: 10px;
+    font-size: 3vw;
+    text-align: center;
+    width: 100%;
+}

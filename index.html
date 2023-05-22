@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+<div id="StartupActions" class="menu">
+    <div class="row">
+        <div id="start-stats" class="actionbutton">Statsaa</div>
+    </div>
+    <div class="row">
+        <div id="start-view" class="actionbutton">Seuraa</div>
+    </div>
+</div>
+<div id="StatsActions" class="menu">
+    <div class="menutitle">
+        Statsaa peli
+    </div>
+    <div class="row">
+        <div id="start-continue" class="actionbutton">Jatka</div>
+    </div>
+    <div class="row">
+        <div id="start-new" class="actionbutton">Uusi</div>
+        <div id="start-join" class="actionbutton">liity</div>
+    </div>
+    <div class="row">
+        <div id="stats-fullback" class="actionbutton">Takaisin</div>
+    </div>
+</div>
+<div id="SetTeamActions" class="menu">
+    <div class="menutitle">
+        Joukkue 1
+    </div>
+    <div class="row">
+        <input id="team-name-input" type="text" placeholder="Joukkueen nimi">
+    </div>
+    <div class="row">
+        <input type="text" id="player-input-1" placeholder="Pelaaja 1"><input type="text" id="player-input-2" placeholder="Pelaaja 2"><input id="player-input-3" type="text" placeholder="Pelaaja 3">
+    </div>
+    <div class="row">
+        <div id="team-teamok" class="actionbutton">Valmis</div>
+        <div id="team-fullback" class="actionbutton">Takaisin</div>
+    </div>
+</div>
+<div id="MainActions" class="menu">
+    <div class="row">
+        <div id="main-hit" class="actionbutton">Osuma</div>
+    </div>
+    <div class="row">
+        <div id="main-endround" class="actionbutton">Päätä Erä</div>
+    </div>
+    <div class="row">
+        <div id="main-selfhit" class="actionbutton">Virhe</div>
+        <div id="main-undo" class="actionbutton">Peruuta</div>
+    </div>
+</div>
+<div id="EndActions" class="menu">
+    <div class="menutitle">
+        Erän voitti
+    </div>
+    <div class="row">
+        <div id="end-win-A" class="actionbutton">Joukkue 1</div>
+    </div>
+    <div class="row">
+        <div id="end-win-B" class="actionbutton">Joukkue 2</div>
+    </div>
+    <div class="row">
+        <div id="end-back" class="actionbutton">Takaisin</div>
+    </div>
+</div>
+<div id="WaitActions" class="menu">
+    <div class="row">
+        <div id="wait-startround" class="actionbutton">Aloita erä</div>
+    </div>
+    <div class="row">
+        <div id="wait-undo" class="actionbutton">Peruuta</div>
+    </div>
+</div>
+<div id="UndoActions" class="menu">
+    <div class="menutitle">
+        Haluatko varmasti peruuttaa edellisen toiminnon?
+    </div>
+    <div class="row">
+        <div id="undo-doundo" class="actionbutton">Kyllä</div>
+        <div id="undo-tolast" class="actionbutton">Ei</div>
+    </div>
+
+</div>
+<div id="WinActions" class="menu">
+    <div class="menutitle">
+        Valitse erän voittaja
+    </div>
+    <div class="row">
+        <div id="win-win-A" class="actionbutton">Joukkue 1</div>
+        <div id="win-win-B" class="actionbutton">Joukkue 2</div>
+    </div>
+    <div class="row">
+        <div id="win-back" class="actionbutton">Takaisin</div>
+    </div>
+</div>
+<div id="PlayerActions" class="menu">
+    <div class="row">
+        <div id="player-select-1" class="actionbutton">player 1</div>
+        <div id="player-select-2" class="actionbutton">player 2</div>
+        <div id="player-select-3" class="actionbutton">player 3</div>
+    </div>
+    <div class="row">
+        <div id="player-select-4" class="actionbutton">player 4</div>
+        <div id="player-select-5" class="actionbutton">player 5</div>
+        <div id="player-select-6" class="actionbutton">player 6</div>
+    </div>
+    <div class="row">
+        <div id="player-back" class="actionbutton">Takaisin</div>
+    </div>
+</div>
+<div id="BeerActions" class="menu">
+    <div class="menutitle">
+        Valitse kaljat
+    </div>
+    <div id="blS" class="beerline beerrow selectables">
+        <div id="bS1" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+        <div id="bS2" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+        <div id="bS3" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+        <div id="bS4" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+        <div id="bS5" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+        <div id="bS6" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+        <div id="bS7" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+        <div id="bS8" class="beerspot">
+            <img src="img/beer.png" class="beer">
+            <img src="img/flip.png" class="flip">
+            <img src="img/hit.png" class="hit">
+            <img src="img/grass.png" class="grass">
+        </div>
+    </div>
+    <div class="row">
+        <div id="beer-ok" class="actionbutton">Valmis</div>
+        <div id="beer-back" class="actionbutton">Takaisin</div>
+    </div>
+</div>
+<div id="blA" class="beerline">
+    <div id="bA1" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bA2" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bA3" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bA4" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bA5" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bA6" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bA7" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bA8" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+</div>
+<div id="blB" class="beerline">
+    <div id="bB1" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bB2" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bB3" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bB4" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bB5" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bB6" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bB7" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+    <div id="bB8" class="beerspot">
+        <div class="actor"></div>
+        <img src="img/beer.png" class="beer">
+        <img src="img/flip.png" class="flip">
+        <img src="img/hit.png" class="hit">
+        <img src="img/grass.png" class="grass">
+    </div>
+</div>
+<div id="bottomtext"></div>
+</body>
+</html>
