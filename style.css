@@ -4,7 +4,7 @@ body, html{
     margin: 0;
     background-color: green;
     user-select: none;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .beerline {
@@ -27,20 +27,26 @@ body, html{
     bottom: auto;
     top: auto;
 }
-#blA {
+#blL {
     left: 0;
 }
-#blB {
+#blR {
     right: 0;
 }
 .beerspot {
     height: 12.5%;
     display: flex;
     cursor: pointer;
+    position: relative;
 }
 .beerspot > img {
     display: none;
     margin-top: -2vh;
+}
+
+.beerspot > .hit {
+    position: absolute;
+    height: 120%;
 }
 
 .beerspot > .beer {
@@ -54,8 +60,8 @@ body, html{
 .menu {
     display: none;
     position: absolute;
-    top: 20%;
-    bottom: 20%;
+    top: 30%;
+    bottom: 15%;
     right: 20%;
     left: 20%;
     flex-direction: column;
@@ -63,13 +69,111 @@ body, html{
     gap: 1vw;
     z-index: 100;
 }
+#top {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+}
+.toprow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+.top_bar{
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 60px;
+    width: 70%;
+    text-align: center;
+    color: azure;
 
+}
+.teamname{
+    width: 35%;
+    padding-top: 10px;
+    font-size: 30px;
+}
+.teamplayers{
+    width: 30%;
+    padding-top: 2px;
+    font-size: 20px;
+    margin-bottom: -20px;
+}
+.mid_padder{
+    width: 10%;
+}
+.teamscore{
+    width: 10%;
+    padding-top: 5px;
+    font-size: 40px;
+}
+#mid_thing{
+    width: 10%;
+    padding-top: 5px;
+    font-size: 40px;
+}
+#triangle-topleft {
+  width: 0;
+  height: 0;
+  border-top: 60px solid rgba(0, 0, 0, 0.6);
+  border-right: 60px solid transparent;
+}
+
+#small-triangle-topleft {
+  width: 0;
+  height: 0;
+  border-top: 20px solid rgba(0, 0, 0, 0.6);
+  border-right: 20px solid transparent;
+}
+#triangle-topright {
+  width: 0;
+  height: 0;
+  border-top: 60px solid rgba(0, 0, 0, 0.6);
+  border-left: 60px solid transparent;
+}
+#small-triangle-topright {
+  width: 0;
+  height: 0;
+  border-top: 20px solid rgba(0, 0, 0, 0.6);
+  border-left: 20px solid transparent;
+}
+.clock_hold{
+    width: 10%;
+    background-color: rgba(0, 0, 0, 0.6);
+
+}
+#clock{
+    width: 100%;
+    color: #b2c0c0;
+    font-size: 25px;
+    margin-top: -10px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#clock > div {
+    width: 15%;
+}
+.separator {
+    width: 5% !important;
+}
 #StartupActions {
     display: flex;
 }
 .menutitle{
     text-align: center;
     font-size: 6vw;
+
+}
+.menulogtext{
+    text-align: center;
+    font-size: 3vw;
 
 }
 .row {
@@ -109,6 +213,7 @@ input{
 .actor{
     position: absolute;
     width: 110%;
+    z-index: 10;
     padding-top: 40%;
     text-align: center;
     color: white;
@@ -123,4 +228,67 @@ input{
     font-size: 3vw;
     text-align: center;
     width: 100%;
+}
+
+#feed-holder{
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    max-height: 156px;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+#feed{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#full-feed-holder{
+    position: absolute;
+    top: 100%;
+    left: 20%;
+    right: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+#feed2{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.feedline{
+    display: flex;
+    flex-direction: row;
+    font-size: 25px;
+    gap: 10px;
+
+}
+.clock{
+    width: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#clock > div {
+    width: 15%;
+}
+.feedplayer{
+    width: 30%;
+}
+.feedtext{
+    width: 60%;
+}
+.feedbeer{
+    padding-left: 10px;
+}
+.feedbeer > img {
+    height: 25px;
+}
+.feedicon{
+    height: 25px;
 }
