@@ -377,7 +377,7 @@ function update_game_list(games){
         d.setUTCSeconds(games[g]["edited"]);
         table += "<tr>" +
             "<td>"+d.toLocaleString()+"</td>" +
-            "<td><a href='/index.html?"+games[g]["code"]+"'>"+games[g]["code"]+"</a></td>" +
+            "<td><a href='https://jiisloth.github.io/FrisbeerStatsing/index.html?"+games[g]["code"]+"'>"+games[g]["code"]+"</a></td>" +
             "<td>"+games[g]["teams"][0]["teamname"]+"</td><td>"+games[g]["teams"][0]["emoji"]+"</td>" +
             "<td>"+games[g]["teams"][1]["emoji"]+"</td><td>"+games[g]["teams"][1]["teamname"]+"</td>" +
             "<td>👀"+games[g]["spectators"]+"</td>" +
