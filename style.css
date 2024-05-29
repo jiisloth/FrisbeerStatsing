@@ -554,6 +554,10 @@ clock > .separator {
     #mask{
         -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 57.5vh, black 58.7vh);
     }
+
+    .spectate-mid-scroll{
+        padding-top: 14vh !important;
+    }
 }
 @media screen and (orientation:landscape) {
     #screen_static{
@@ -588,6 +592,9 @@ clock > .separator {
     }
     #feed-text{
         width: 80%
+    }
+    .spectate-mid-scroll{
+        padding-top: 10vh !important;
     }
 
 }
@@ -632,10 +639,6 @@ clock > .separator {
 }
 .spectate-mid-scroll{
     padding-top: 10vh !important;
-}
-.spectate-mask{
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 10vh, black 15vh) !important;
-
 }
 
 .popupbox .actionbutton{
