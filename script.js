@@ -528,6 +528,7 @@ function do_action(button) {
             if (role === "host" || role === "editor"){
                 send_data("update_actions", {"actions": actions, "request_id": -1, "last_update": last_update_from_server[0]}, true);
             }
+            break;
             if (!lastact){
                 set_menu("StartupActions")
                 break
@@ -695,6 +696,8 @@ function set_top(){
 }
 
 function set_playerbuttons(){
+    $("#end-win-0").text(teams[0]["teamname"])
+    $("#end-win-1").text(teams[1]["teamname"])
     for (let p = 0; p < 6; p++) {
         $("#player-select-" + p).text(get_player(p))
     }
@@ -722,6 +725,7 @@ function load_from_actions(reset=true){
     score[0] = 0
     score[1] = 0
     start_time = 0
+    set_menu("WaitActions")
     set_playerbuttons()
     for (let a = 0; a < actions.length; a++){
         switch (actions[a]["type"]){
@@ -895,6 +899,9 @@ function set_share(){
         $("#share_edit_row").removeClass("hideself")
         $("#sharepopup-editlink").text(gamecode.slice(0,10))
     }
+    if (role === "host") {
+        $("#sharepopup-public").removeClass("hideself")
+    }
     $("#sharepopup-sharelink").text(gamecode.slice(0,5))
 }
 
@@ -1045,7 +1052,7 @@ function update_feed(action, blink=false){
                     feedline = "<div class='feedline'><div class='feedpadder'>-></div>"+teamicon+"<div class='reportplayer'>" + get_player(p) + "</div>"
                     feedline += "<div class='report_kills'>+" + report["players"][p]["kill_count"] +"</div><div class='report_multi'>"
                     let multistring = ""
-                    for (let i = 1; i < 7; i++) {
+                    for (let i = 1; i < 8; i++) {
                         let multi = report["players"][p]["multis"][i]
                         if (multi > 0){
                             if (multistring !== ""){
@@ -1094,17 +1101,26 @@ function test_emoji(input){
 }
 
 function get_csv_report(){
-    let csv = "round,team,player,kills,flips,1K,2K,3K,4K,5K,6K,7K,8K,penalties\n"
+    let csv = "round,team,player,kills,flips,1K,2K,3K,4K,5K,6K,7K,8K,first,last,penalties\n"
     for (let round = 0; round < start_actions.length; round++) {
         let report = get_report(round)
         if (!report){
             break
         }
         for (let p = 0; p < 6; p++) {
+            let t = get_team(p)
+            let first = "FALSE"
+            if (report["first"][t] === p){
+                first = "TRUE"
+            }
+            let last = "FALSE"
+            if (report["last"][t] === p){
+                last = "TRUE"
+            }
             let pr = report["players"][p]
-            let line = [round+1, teams[get_team(p)]["teamname"], get_player(p), pr["kill_count"], pr["flip_count"],
+            let line = [round+1, teams[t]["teamname"], get_player(p), pr["kill_count"], pr["flip_count"],
                 pr["multis"][0], pr["multis"][1], pr["multis"][2], pr["multis"][3], pr["multis"][4],
-                pr["multis"][5], pr["multis"][6], pr["multis"][7], pr["penalties"]]
+                pr["multis"][5], pr["multis"][6], pr["multis"][7], first, last, pr["penalties"]]
             csv += line.join(",") +"\n"
         }
     }
@@ -1115,10 +1131,11 @@ function get_report(round=-1){
     if (round < 0) {
         round = start_actions.length + round
     }
-    let report = {"start": actions[start_actions[round]]["timestamp"], "end":0, "duration": "", "players": []}
+    let report = {"start": actions[start_actions[round]]["timestamp"], "end":0, "duration": "", "players": [], "first":[-1,-1], "last": [-1,-1]}
     for (let p = 0; p < 6; p++) {
         report["players"].push({"kill_count": 0, "flip_count": 0, "multis": [0,0,0,0,0,0,0,0], "penalties": 0})
     }
+    let teamkills = [0,0]
     for (let a = start_actions[round]+1; a < actions.length; a++) {
         if (actions[a]["type"] === "hit") {
             let flips = 0
@@ -1136,12 +1153,20 @@ function get_report(round=-1){
                         break
                 }
             }
+            let team = get_team(actions[a]["player"])
             if (actions[a]["selfhit"]) {
                 report["players"][actions[a]["player"]]["penalties"] += kills
             } else {
                 report["players"][actions[a]["player"]]["kill_count"] += kills
                 report["players"][actions[a]["player"]]["flip_count"] += flips
                 if (kills > 0) {
+                    if (teamkills[team] === 0){
+                        report["first"][team] = actions[a]["player"]
+                    }
+                    teamkills[team] += kills
+                    if (teamkills[team] === 8){
+                        report["last"][team] = actions[a]["player"]
+                    }
                     report["players"][actions[a]["player"]]["multis"][kills - 1] += 1
                 }
             }
