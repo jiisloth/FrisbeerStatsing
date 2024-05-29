@@ -1,37 +1,85 @@
 
-body, html{
+@font-face {
+    font-family: "Ubuntu Titling";
+    src: url(UbuntuTitling-Bold.ttf);
+    descent-override: 15%;
+}
+@font-face {
+    font-family: "Ubuntu Titling Full";
+    src: url(UbuntuTitling-Bold.ttf);
+    ascent-override: 85%;
+}
+
+body, html {
     padding: 0;
     margin: 0;
+    font-size: 24px;
+    font-family: "Ubuntu Titling";
+    line-height: normal;
+}
+body{
     background-color: green;
     user-select: none;
     overflow-x: hidden;
 }
 
+#screen_static{
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+}
+#mask{
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 82vh, black 85vh);
+}
+#screen_scroll{
+    height: 100vh;
+    overflow-y: auto;
+}
+#mid-scroll{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+#mid-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.screen_area{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+.side_panel{
+    width: 12.5vh;
+}
+.mid{
+    width: 80%;
+    height: 100%;
+}
+#mid-scroll{
+    padding-top: 80vh;
+    width: 80%;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-height: 100vh;
+}
 .beerline {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    position: absolute;
-    top: 20px;
-    bottom: 10px;
+    height: 95%;
+    padding-top: 3%;
 }
 .beerrow{
     flex-direction: row;
-}
-.selectables {
-    position: relative;
-    width: 140%;
-    left: -20%;
-    right: 20%;
-    height: 30%;
-    bottom: auto;
-    top: auto;
-}
-#blL {
-    left: 0;
-}
-#blR {
-    right: 0;
+    height: 10vw;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-top: 1%;
+    pointer-events: auto;
 }
 .beerspot {
     height: 12.5%;
@@ -40,14 +88,17 @@ body, html{
     position: relative;
 }
 .beerspot > img {
-    display: none;
-    margin-top: -2vh;
-}
-
-.beerspot > .hit {
     position: absolute;
     height: 120%;
+    display: none;
+    margin-top: -2vh;
+    left: -999999px;
+    right: -999999px;
+    margin-right: auto;
+    margin-left: auto;
+
 }
+
 
 .beerspot > .beer {
     display: block;
@@ -57,23 +108,42 @@ body, html{
     height: 100%;
     width: 12.5%;
 }
-.menu {
-    display: none;
-    position: absolute;
-    top: 30%;
-    bottom: 15%;
-    right: 20%;
-    left: 20%;
+.hit{
+    z-index: 1;
+}
+#top{
+    z-index: 20;
+}
+.menus{
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
+    min-height: 60vh;
+}
+.menu {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
     gap: 1vw;
     z-index: 100;
 }
-#top {
+.menu > .buttonrow{
+    width: 80%;
+    margin: auto;
+}
+.menu > .inputrow{
+    width: 90%;
+    margin: auto;
+}
+.top{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;
+    min-height: 10vh;
+    height: 10vh;
+
 }
 .toprow {
     display: flex;
@@ -81,6 +151,9 @@ body, html{
     justify-content: center;
     width: 100%;
     text-align: center;
+}
+.toprowsmaller {
+    height: 20px;
 }
 .top_bar{
     background-color: rgba(0, 0, 0, 0.6);
@@ -91,6 +164,7 @@ body, html{
     width: 70%;
     text-align: center;
     color: azure;
+    font-size: 40px;
 
 }
 .teamname{
@@ -101,7 +175,7 @@ body, html{
 .teamplayers{
     width: 30%;
     padding-top: 2px;
-    font-size: 20px;
+    font-size: 24px;
     margin-bottom: -20px;
 }
 .mid_padder{
@@ -110,12 +184,12 @@ body, html{
 .teamscore{
     width: 10%;
     padding-top: 5px;
-    font-size: 40px;
 }
 #mid_thing{
     width: 10%;
     padding-top: 5px;
-    font-size: 40px;
+    pointer-events: auto;
+    cursor: pointer;
 }
 #triangle-topleft {
   width: 0;
@@ -168,12 +242,12 @@ body, html{
 }
 .menutitle{
     text-align: center;
-    font-size: 6vw;
+    font-size: 3.5rem;
 
 }
 .menulogtext{
     text-align: center;
-    font-size: 3vw;
+    font-size: 1.8rem;
 
 }
 .row {
@@ -183,13 +257,12 @@ body, html{
     gap: 1vw;
 }
 .actionbutton {
-    font-size: 3vw;
+    font-size: 2.6rem;
     background-color: rgba(86, 86, 86, 0.44);
-    border-radius: 3vw;
-    padding: 3vw;
     width: 100%;
     text-align: center;
     cursor: pointer;
+    pointer-events: auto;
 }
 .actionbutton:hover{
     background-color: rgba(225, 225, 225, 0.44);
@@ -197,13 +270,24 @@ body, html{
 }
 
 input{
-    font-size: 3vw;
+    font-size: 2rem;
     background-color: rgba(255, 255, 255, 0.94);
     border-radius: 3vw;
     padding: 1vw;
     width: 100%;
     text-align: center;
     cursor: pointer;
+    font-family: "Ubuntu Titling Full";
+    pointer-events: auto;
+}
+#team-emoji-input{
+    font-family: sans-serif;
+    font-size: 3rem;
+    width: 4rem;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background-color: rgba(178, 192, 192, 0);
 }
 
 #start-continue{
@@ -214,81 +298,339 @@ input{
     position: absolute;
     width: 110%;
     z-index: 10;
-    padding-top: 40%;
+    padding-top: 45%;
     text-align: center;
     color: white;
-    text-shadow: 0 0 6px #000, 0 0 6px #000,0 0 6px #000,0 0 6px #000,0 0 6px #000,0 0 6px #000,0 0 6px #000;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 0 0 3px rgba(0, 0, 0, 0.9),0 0 3px rgba(0, 0, 0, 0.9),0 0 3px rgba(0, 0, 0, 0.9),0 0 3px rgba(0, 0, 0, 0.9),0 0 3px rgba(0, 0, 0, 0.9),0 0 3px rgba(0, 0, 0, 0.9);
     transform: rotate(15deg);
-
-
 }
+.outline{
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 0.9),0 0 2px rgba(0, 0, 0, 0.9),0 0 2px rgba(0, 0, 0, 0.9),0 0 2px rgba(0, 0, 0, 0.9),0 0 2px rgba(0, 0, 0, 0.9),0 0 2px rgba(0, 0, 0, 0.9);
+}
+
 #bottomtext{
-    position: absolute;
-    bottom: 10px;
-    font-size: 3vw;
+    font-size: 2rem;
     text-align: center;
     width: 100%;
 }
 
-#feed-holder{
-    margin-left: 20%;
-    margin-right: 20%;
-    margin-top: 30px;
+.feed_single{
+    height: 10vh;
+}
+#feed_single{
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1vh;
+    font-size: 0.9rem;
+    height: 10vh;
+}
+#feed_single > div{
+    margin-top: 1vh;
+}
+
+#full-feed-holder{
+    padding-top: 4vh;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
     display: flex;
     flex-direction: column;
-    max-height: 156px;
     justify-content: flex-end;
-    overflow: hidden;
+    padding-bottom: 1vh;
+}
+#feed-text{
+    font-size: 1.2rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -4px;
 }
 #feed{
     width: 100%;
     display: flex;
     flex-direction: column;
 }
-
-#full-feed-holder{
-    position: absolute;
-    top: 100%;
-    left: 20%;
-    right: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    overflow: hidden;
+.feedpadder{
+    display: none;
 }
-#feed2{
+#feed > .feedline > .feedpadder{
+    width: 6.8rem;
+    text-align: right;
+    display: block;
+}
+.feed_line_end{
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-end;
 }
+
 .feedline{
     display: flex;
     flex-direction: row;
-    font-size: 25px;
+    width: 100%;
+    font-size: 1.05rem;
     gap: 10px;
 
 }
+.teamicon{
+    margin-top: -0.1rem;
+    font-size: 0.9rem;
+    font-family: "Ubuntu Titling Full";
+}
+.teamemoji{
+    padding-top: 0.1rem;
+    font-family: "Ubuntu Titling Full";
+}
+.reportplayer{
+    width: 30%;
+}
+.report_kills{
+    width: 5%;
+}
+.report_flips{
+    width: 16%;
+}
+.report_multi{
+    width: 20%;
+}
+
 .clock{
-    width: 100px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-#clock > div {
-    width: 15%;
+.clock > div {
+    text-align: center;
+    width: 0.8rem;
+}
+clock > .separator {
+    width: 0.3rem;
 }
 .feedplayer{
-    width: 30%;
+    text-align: right;
+    margin-right: 1.5rem;
 }
-.feedtext{
-    width: 60%;
-}
+
 .feedbeer{
     padding-left: 10px;
 }
 .feedbeer > img {
-    height: 25px;
+    height: 1.8rem;
+    margin-top: -0.5rem;
+    margin-left: -0.1rem;
+}
+.faded{
+    opacity: 0.6;
+    filter: saturate(20%);
 }
 .feedicon{
-    height: 25px;
+    height: 1.05rem;
+}
+.feedicon-disc{
+    height: 1.2rem;
+    margin-top: -0.1rem;
+}
+.hide > div{
+    display: none !important;
+}
+.hideself{
+    display: none !important;
+}
+#spectator_count{
+    position: absolute;
+    top:0;
+    left:0;
+    text-align: right;
+    padding: 5px;
+    font-size: 1.2rem;
+
+}
+
+#share{
+    position: absolute;
+    top:0;
+    right:0;
+    text-align: right;
+    padding: 5px;
+    font-size: 1.2rem;
+
+}
+.popupbg{
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    background-color: rgba(7, 7, 7, 0.8);
+
+}
+.popupbox{
+    margin-top: 10%;
+    padding: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1vw;
+    z-index: 100;
+    background-color: rgb(166, 144, 79);
+
+}
+.popupbox .actionbutton{
+    font-size: 1.2rem;
+
+}
+.label {
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: center;
+    pointer-events: auto;
+    border-radius: 1.5vh;
+    padding: 2vh 1vh;
+}
+
+@media screen and (orientation:portrait) {
+    #screen_static{
+        height: 60vh;
+    }
+    #mid-scroll{
+        padding-top: 60vh;
+        width: 100%;
+    }
+    .top{
+        min-height: 6vh;
+    }
+    .feed_single{
+        min-height: 6vh;
+    }
+    .menus{
+        min-height: 36vh;
+
+    }
+    .side_panel{
+        width: 5.375vh;
+    }
+    .actionbutton {
+        border-radius: 1.5vh;
+        padding: 2vh 1vh;
+    }
+    html{
+        font-size: 20px;
+    }
+    .menu > .buttonrow{
+        width: 90%
+    }
+    .menu > .inputrow{
+        width: 95%;
+    }
+    #feed_single{
+        width: 90%;
+    }
+    #full-feed-holder{
+        padding-top: 0;
+        width: 90%;
+    }
+    #feed-text{
+        width: 90%
+    }
+    #screen_scroll > .side_panel{
+        width: 0;
+    }
+    #screen_scroll > .mid{
+        width: 100%;
+    }
+
+    #mask{
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 57.5vh, black 58.7vh);
+    }
+}
+@media screen and (orientation:landscape) {
+    #screen_static{
+        height: 100vh;
+    }
+
+    .screen_area {
+
+    }
+    .side_panel{
+        width: 12.5vh;
+    }
+    .actionbutton {
+        border-radius: 3vh;
+        padding: 3vh 1.5vh;
+    }
+    html{
+        font-size: 24px;
+    }
+    .menu > .buttonrow{
+        width: 80%
+    }
+    .menu > .inputrow{
+        width: 90%;
+    }
+    #feed_single{
+        width: 80%
+    }
+
+    #full-feed-holder{
+        width: 80%
+    }
+    #feed-text{
+        width: 80%
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+    html{
+        font-size: 18px;
+    }
+    .teamplayers{
+        font-size: 22px;
+    }
+    .teamname{
+        font-size: 26px;
+    }
+    .top_bar{
+        font-size: 34px;
+    }
+    #clock{
+        font-size: 20px;
+    }
+}
+@media only screen and (max-width: 600px) {
+    html{
+        font-size: 16px;
+    }
+    .teamplayers{
+        font-size: 20px;
+    }
+    .teamname{
+        font-size: 22px;
+    }
+    .top_bar{
+        font-size: 30px;
+    }
+    #clock{
+        font-size: 18px;
+    }
+}
+
+.spectate-feed-text{
+    padding-top: 10px !important;
+}
+.spectate-mid-scroll{
+    padding-top: 10vh !important;
+}
+.spectate-mask{
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 10vh, black 15vh) !important;
+
+}
+
+.popupbox .actionbutton{
+    font-size: 1.2rem !important;
+    border-radius: 1.5vh !important;
+    padding: 2vh 1vh !important;
 }
