@@ -1,20 +1,25 @@
+
+let joining = false
 $(document).ready(function () {
     let url_params = window.location.search
     if (url_params){
         gamecode = url_params.slice(1, url_params.length)
         if (gamecode.length === 5){
             role = "spectator"
-            join()
+            joining = true
             set_menu("WaitForConnection")
         }
         if (gamecode.length === 10){
             role = "editor"
-            join()
+            joining = true
             set_menu("WaitForConnection")
         }
-    } else if (load_game()){
-        if (gamecode.length > 5){
-            $("#start-continue").show()
+    }
+    if(!joining){
+        if (load_game()){
+            if (gamecode.length > 5){
+                $("#start-continue").show()
+            }
         }
     }
     randomize_beers()
@@ -69,6 +74,9 @@ $(document).ready(function () {
     $("#share").on("click", function () {
         show_popup("sharepopup")
     });
+    if (joining){
+        join()
+    }
 });
 
 let role = "host"
@@ -87,7 +95,12 @@ const socket = new WebSocket('wss://fbstats.jsloth.fi');
 // Connection opened
 socket.addEventListener('open', function (event) {
     is_online = true
-    send_data("get_games", {});
+
+    if (joining){
+        join()
+    } else {
+        send_data("get_games", {});
+    }
 
 });
 // Listen for messages
