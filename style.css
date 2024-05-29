@@ -76,6 +76,8 @@ body{
 .beerrow{
     flex-direction: row;
     height: 10vw;
+    margin-top: -2vw;
+    margin-bottom: 4vw;
     margin-left: 2%;
     margin-right: 2%;
     padding-top: 1%;
@@ -557,6 +559,12 @@ clock > .separator {
     .beerline {
         height: 90%;
         padding-top: 10%;
+    }
+    .beerrow {
+        height: 10vw;
+        margin-top: -2vw;
+        margin-bottom: 4vw;
+        padding-top: 1%;
     }
     #mask{
         -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 57.5vh, black 58.7vh);

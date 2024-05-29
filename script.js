@@ -946,7 +946,8 @@ function set_edit(t){
         "teamname": teams[t]["teamname"],
         "emoji": teams[t]["emoji"],
         "players": teams[t]["players"],
-        "beers": []
+        "beers": [],
+        "teamid": t
     }
     for (let b = 0; b < teams[t]["beers"].length; b++ ) {
         editing["beers"][b] = {
@@ -1225,13 +1226,24 @@ function update_beerlines() {
     update_beerline(0)
     update_beerline(1)
 }
+function do_editline_tilt(e, line){
+    for (let b = 0; b < 8; b++ ) {
+        if (e["teamid"] === 0){
+            $(line[b]).css("margin-top", (b*0.8) +"vw")
 
+        } else{
+            $(line[b]).css("margin-top", ((7-b)*0.8) +"vw")
+        }
+    }
+
+}
 function update_beerline(t) {
     let line = []
     let team
     if (t === -1){
         team = editing
         line = $("#blP").children().toArray();
+        do_editline_tilt(team, line)
     } else {
         team = teams[t]
         if ((flip && t === 0)||(!flip && t === 1)) {
