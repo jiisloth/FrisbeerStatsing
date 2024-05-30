@@ -1218,9 +1218,8 @@ function update_beerlines() {
 }
 function do_editline_tilt(e, line){
     for (let b = 0; b < 8; b++ ) {
-        if (e["teamid"] === 0){
+        if ((e["teamid"] === 0 && !flip)||(e["teamid"] === 1 && flip)){
             $(line[b]).css("margin-top", (b*0.8) +"vw")
-
         } else{
             $(line[b]).css("margin-top", ((7-b)*0.8) +"vw")
         }
