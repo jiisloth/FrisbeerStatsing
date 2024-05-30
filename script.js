@@ -127,7 +127,7 @@ function check_up_to_date(msg){
     return [true, false, last]
 }
 
-
+let conflicted = false
 socket.addEventListener('message', function (message) {
     let msg = JSON.parse(message.data)
     log(2,"received: " + message.data)
@@ -143,6 +143,7 @@ socket.addEventListener('message', function (message) {
             }
             break
         case "ok":
+            conflicted = false
             if (msg.recv_msg_id in waiting_response){
               delete waiting_response[msg.recv_msg_id]
             }
@@ -174,11 +175,12 @@ socket.addEventListener('message', function (message) {
             save_game(true)
             break
         case "timing_conflict":
-            if (up_to_date[0] === false || up_to_date[1] === false){
+            if (up_to_date[0] === false || up_to_date[1] === false || conflicted){
                 send_data("get_actions", {})
             } else {
                 let re_sent = waiting_response[msg.recv_msg_id]
                 if (re_sent){
+                    conflicted = true
                     send_data(re_sent["type"], re_sent, true)
                 }
             }
@@ -497,11 +499,11 @@ function do_action(button) {
             break;
         case "sharelink":
             $("#sharelinkpressed").text("Kopioitu!")
-            navigator.clipboard.writeText(gamecode.slice(0,5))
+            navigator.clipboard.writeText("https://jiisloth.github.io/FrisbeerStatsing/index.html?"+gamecode.slice(0,5))
             break;
         case "editlink":
             $("#editlinkpressed").text("Kopioitu!")
-            navigator.clipboard.writeText(gamecode.slice(0,10))
+            navigator.clipboard.writeText("https://jiisloth.github.io/FrisbeerStatsing/index.html?"+gamecode.slice(0,10))
             break;
         case "report":
             $("#reportlinkpressed").text("Kopioitu!")
@@ -522,24 +524,12 @@ function do_action(button) {
             set_menu("StartupActions")
             break;
         case "doundo":
-            let lastact = actions.pop()
+            actions.pop()
             save_game()
             load_from_actions()
             if (role === "host" || role === "editor"){
                 send_data("update_actions", {"actions": actions, "request_id": -1, "last_update": last_update_from_server[0]}, true);
             }
-            break;
-            if (!lastact){
-                set_menu("StartupActions")
-                break
-            } else if (lastact["type"] === "start"){
-                set_menu("WaitActions")
-                break
-            } else if (lastact["type"] === "win") {
-                set_menu("MainActions")
-                break
-            }
-            set_menu(lastmenu)
             break;
         case "startround":
             set_action("start")
