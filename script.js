@@ -1152,11 +1152,11 @@ function get_report(round=-1){
                 report["players"][actions[a]["player"]]["flip_count"] += flips
                 if (kills > 0) {
                     if (teamkills[team] === 0){
-                        report["first"][team] = actions[a]["player"]
+                        report["first"][team] = parseInt(actions[a]["player"])
                     }
                     teamkills[team] += kills
                     if (teamkills[team] === 8){
-                        report["last"][team] = actions[a]["player"]
+                        report["last"][team] = parseInt(actions[a]["player"])
                     }
                     report["players"][actions[a]["player"]]["multis"][kills - 1] += 1
                 }
