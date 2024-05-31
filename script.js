@@ -1081,12 +1081,22 @@ function update_feed(action, blink=false){
     }
 }
 function test_emoji(input){
-    const regex = /\p{Extended_Pictographic}/u
+    const regex = /\p{Extended_Pictographic}/ug
+    const regex2 = /(?=\p{Emoji})(?!\p{Number})/u
+    let inp = input
     let emoji = ""
     if (regex.test(input)){
         if (input.replace(regex, "") === ""){
             emoji = input
         }
+    }
+    if (emoji === ""){
+        if (regex2.test(inp)){
+            if (inp.replace(regex2, "") === ""){
+                emoji = inp
+            }
+        }
+
     }
     return emoji
 }
