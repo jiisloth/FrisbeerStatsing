@@ -74,9 +74,6 @@ $(document).ready(function () {
     $("#share").on("click", function () {
         show_popup("sharepopup")
     });
-    if (joining){
-        join()
-    }
 });
 
 let role = "host"
@@ -95,13 +92,34 @@ const socket = new WebSocket('wss://fbstats.jsloth.fi');
 // Connection opened
 socket.addEventListener('open', function (event) {
     is_online = true
-
+    $("#status_offline").addClass("hideself")
+    $("#status_online").removeClass("hideself")
+    $("#spectator_count").addClass("hideself")
+    setTimeout(function (){
+        if (is_online){
+            $("#status_online").addClass("hideself")
+            $("#spectator_count").removeClass("hideself")
+        }
+    }, 5000)
     if (joining){
         join()
     } else {
         send_data("get_games", {});
     }
 
+});
+socket.addEventListener('close', function () {
+    is_online = false
+    $("#status_offline").removeClass("hideself")
+    $("#status_online").addClass("hideself")
+    $("#spectator_count").addClass("hideself")
+    setTimeout(function (){
+        socket.connect()
+    }, 1000)
+});
+socket.addEventListener('error', function (err) {
+    log(1, 'Socket encountered error: ' + err.message + ' Closing socket');
+    socket.close();
 });
 // Listen for messages
 
@@ -230,12 +248,15 @@ function join(cntn=false){
             } else {
                 send_data("request_host",{"hostcode": gamecode}, true)
             }
+            joining = true
             break
         case "editor":
             send_data("join",{"editcode": gamecode.slice(0, 10)}, true)
+            joining = true
             break
         case "spectator":
             send_data("spectate",{"gamecode": gamecode.slice(0, 5)}, true)
+            joining = true
             break
     }
 
@@ -378,10 +399,9 @@ function setup_spectate_mode(){
 
 function update_spectator_count(count){
     if (count > 1){
-        $("#spectator_count").removeClass("hideself")
         $("#spectator_count").text("👀" + (count-1))
     } else {
-        $("#spectator_count").addClass("hideself")
+        $("#spectator_count").text("")
     }
 }
 
@@ -1031,12 +1051,16 @@ function update_feed(action, blink=false){
             for (let s = 0; s < score[action["team"]]; s++ ) {
                 feedicon += "<img class='feedicon' src='img/win.png'>"
             }
-            feedline += "-> " + get_time_div(action.timestamp) + teamicon  + "<div class='feedtext'>" + texts["team"][lang] + " " + teams[action["team"]]["teamname"] + " " + texts["won"][lang] + "</div>" +feedicon
+            feedline += get_time_div(action.timestamp, false) + teamicon  + "<div class='feedtext'>" + texts["team"][lang] + " " + teams[action["team"]]["teamname"] + " " + texts["won"][lang] + "</div>" +feedicon
             $("#feed").append(feedline)
             $("#feed_single").html("<div class='last_action'>" + texts["last_action"][lang] + "</div>" + feedline)
             let report = get_report()
             if (report){
-                feedline = "<div class='feedline'><div class='feedpadder'>-></div><div class='feedtext'>" + texts["round_duration"][lang] + " " + report["duration"] + "</div></div>"
+                feedline = "<div class='feedline'><div class='feedpadder'>-></div><div class='feedtext'>" + texts["round_duration"][lang] + " " + report["duration"]
+                if (report["duration_from_start"] !== ""){
+                    feedline += " (" + report["duration_from_start"] + ")"
+                }
+                feedline += "</div></div>"
                 $("#feed").append(feedline)
                 for (let p = 0; p < 6; p++) {
                     teamicon = "<div class='teamicon outline'>"+teams[get_team(p)]["emoji"]+"</div>"
@@ -1132,7 +1156,7 @@ function get_report(round=-1){
     if (round < 0) {
         round = start_actions.length + round
     }
-    let report = {"start": actions[start_actions[round]]["timestamp"], "end":0, "duration": "", "players": [], "first":[-1,-1], "last": [-1,-1]}
+    let report = {"start": actions[start_actions[round]]["timestamp"], "end":0, "duration": "", "duration_from_start": "", "players": [], "first":[-1,-1], "last": [-1,-1]}
     for (let p = 0; p < 6; p++) {
         report["players"].push({"kill_count": 0, "flip_count": 0, "multis": [0,0,0,0,0,0,0,0], "penalties": 0})
     }
@@ -1182,17 +1206,30 @@ function get_report(round=-1){
         minutes = (Math.floor(diffTime / (1000 * 60))%60).toString().padStart(2,"0");
         seconds = (Math.floor(diffTime / (1000))%60).toString().padStart(2,"0");
         report["duration"] = hours+":"+minutes+":"+seconds
+        if (round !== 0){
+            let diffTime = Math.abs(report["end"] - actions[start_actions[0]]["timestamp"]);
+            hours = Math.floor(diffTime / (1000 * 60 * 60)).toString().padStart(2,"0");
+            minutes = (Math.floor(diffTime / (1000 * 60))%60).toString().padStart(2,"0");
+            seconds = (Math.floor(diffTime / (1000))%60).toString().padStart(2,"0");
+            report["duration_from_start"] = hours+":"+minutes+":"+seconds
+
+        }
+
         return report
     }
     return false
 
 }
 
-function get_time_div(timestamp, from_start=true){
+function get_time_div(timestamp, from_start=true, from_game_start=false){
     let hours
     let minutes
     let seconds
     if (from_start){
+        let stime = round_time
+        if (from_game_start){
+            stime = start_time
+        }
         let diffTime = Math.abs(timestamp - round_time);
         hours = Math.floor(diffTime / (1000 * 60 * 60)).toString().padStart(2,"0");
         minutes = (Math.floor(diffTime / (1000 * 60))%60).toString().padStart(2,"0");

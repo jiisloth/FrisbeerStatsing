@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Frisbeer Stats</title>
-    <link rel="stylesheet" type="text/css" href="style.css?v6"/>
+    <link rel="stylesheet" type="text/css" href="style.css?v7"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="script.js?v6"></script>
+    <script src="script.js?v7"></script>
 </head>
 <body>
 
@@ -413,8 +413,12 @@
         </div>
     </div>
 </div>
-<div id="spectator_count" class="hideself"></div>
-<div id="share" class="hideself">JAA</div>
+<div id="left_top">
+    <div id="status_offline" class="status outline">Ei yhteyttä</div>
+    <div id="status_online" class="status outline hideself">Yhteys muodostettu</div>
+    <div id="spectator_count" class="hideself"></div>
+</div>
+<div id="right_top"><div id="share" class="hideself">JAA</div></div>
 <div id="sharepopup" class="hideself popupbg">
     <div class="popupbox">
     <div class="menutitle">
@@ -423,7 +427,7 @@
     <div class="row buttonrow">
         <div id="sharepopup-public" class="actionbutton hideself">Julkaise</div>
     </div>
-    <div class="row buttonrow">
+    <div id="share_watch_row" class="row buttonrow hideself">
         <div class="label">Seuranta:</div><div id="sharelinkpressed" class="label"></div><div id="sharepopup-sharelink" class="actionbutton"></div>
     </div>
     <div id="share_edit_row" class="row buttonrow hideself">

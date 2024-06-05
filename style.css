@@ -290,6 +290,7 @@ input{
     border: none;
     border-radius: 0;
     background-color: rgba(178, 192, 192, 0);
+    font-variant-emoji: emoji;
 }
 
 #start-continue{
@@ -372,6 +373,7 @@ input{
     width: 100%;
     font-size: 1.05rem;
     gap: 10px;
+    font-variant-emoji: emoji;
 
 }
 .teamicon{
@@ -382,6 +384,7 @@ input{
 .teamemoji{
     padding-top: 0.1rem;
     font-family: "Ubuntu Titling Full";
+    font-variant-emoji: emoji;
 }
 .reportplayer{
     width: 30%;
@@ -438,25 +441,41 @@ clock > .separator {
 .hideself{
     display: none !important;
 }
-#spectator_count{
+#left_top{
     position: absolute;
     top:0;
     left:0;
     text-align: right;
-    padding: 5px;
     font-size: 1.2rem;
-
+}
+#spectator_count{
+    padding: 5px 10px;
+}
+.status{
+    font-size: 1rem;
+    padding: 5px 10px;
+}
+#status_offline{
+    color: #ff0000;
+}
+#status_online{
+    color: #00ff04;
 }
 
-#share{
+#right_top{
     position: absolute;
     top:0;
     right:0;
     text-align: right;
-    padding: 5px 10px;
-    font-size: 1.8rem;
-
+    font-size: 1.2rem;
 }
+#share{
+    font-size: 1.8rem;
+    padding: 5px 0;
+    text-align: center;
+    width: 12.5vh;
+}
+
 .popupbg{
     position: fixed;
     top:0;
@@ -513,6 +532,9 @@ clock > .separator {
     }
     .side_panel{
         width: 4.3vh;
+    }
+    #share{
+        width: 6.5vh;
     }
     .beerspot{
         height: 9%;
