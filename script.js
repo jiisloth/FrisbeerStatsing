@@ -175,7 +175,6 @@ socket.addEventListener('message', function (message) {
         case "init_host":
             gamecode = msg.hostcode
             localStorage.gamecode = JSON.stringify(gamecode);
-            set_share()
             break
         case "init_rehost":
             reset_game(msg.teams, msg.actions)
@@ -479,7 +478,7 @@ function do_action(button) {
             role = "host"
             join()
             shuffle(emojis)
-            init_game()
+            init_game(true)
             clear_inputs(texts["team"][lang]+" 1")
             set_menu("SetTeamActions")
             break;
@@ -503,6 +502,7 @@ function do_action(button) {
                 set_playerbuttons()
                 set_menu("WaitActions")
                 set_top()
+                set_share()
             }
             break;
         case "undo":
@@ -905,12 +905,15 @@ function set_menu(menuid) {
 
 function set_share(){
     $("#share").removeClass("hideself")
-    if (role === "host" || role === "editor"){
-        $("#share_edit_row").removeClass("hideself")
-        $("#sharepopup-editlink").text(gamecode.slice(0,10))
-    }
-    if (role === "host") {
-        $("#sharepopup-public").removeClass("hideself")
+    if (is_online){
+        if (role === "host" || role === "editor"){
+            $("#share_edit_row").removeClass("hideself")
+            $("#sharepopup-editlink").text(gamecode.slice(0,10))
+        }
+        if (role === "host") {
+            $("#sharepopup-public").removeClass("hideself")
+        }
+        $("#share_watch_row").removeClass("hideself")
     }
     $("#sharepopup-sharelink").text(gamecode.slice(0,5))
 }
@@ -1260,6 +1263,9 @@ function get_time_div(timestamp, from_start=true, from_game_start=false){
 }
 
 function update_beerlines() {
+    if (is_online && teams[0]["ready"] && teams[1]["ready"]){
+        set_share()
+    }
     update_beerline(0)
     update_beerline(1)
 }
