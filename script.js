@@ -118,40 +118,13 @@ function connect() {
         connect()
     }, 1000)
     });
-}
+    socket.addEventListener('error', function (err) {
+        log(0, 'Socket encountered error: ' + err.message + ' Closing socket');
+        socket.close();
+    });
 
-connect();
-
-socket.addEventListener('error', function (err) {
-    log(0, 'Socket encountered error: ' + err.message + ' Closing socket');
-    socket.close();
-});
-// Listen for messages
-
-function check_up_to_date(msg){
-    let last = true
-    if (waiting_response.length > 0){
-        last = false
-    }
-    if ("last_update" in msg){
-        console.log(msg.last_update)
-        console.log(last_update_from_server)
-        if (last_update_from_server[0] === -1){
-            last_update_from_server = msg.last_update
-            return [true, false, last]
-        }
-        if (last_update_from_server[1] === msg.last_update[1]-1){
-            last_update_from_server = msg.last_update
-            return [true, true, last]
-        }
-        last_update_from_server = msg.last_update
-        return [false, false, false]
-    }
-    return [true, false, last]
-}
-
-let conflicted = false
-socket.addEventListener('message', function (message) {
+    // Listen for messages
+    socket.addEventListener('message', function (message) {
     let msg = JSON.parse(message.data)
     log(2,"received: " + message.data)
 
@@ -241,8 +214,38 @@ socket.addEventListener('message', function (message) {
         case "orphaned":
             //show_orphaned() // TODO
             break
+        }
+    });
+}
+
+connect();
+
+// Listen for messages
+
+function check_up_to_date(msg){
+    let last = true
+    if (waiting_response.length > 0){
+        last = false
     }
-});
+    if ("last_update" in msg){
+        console.log(msg.last_update)
+        console.log(last_update_from_server)
+        if (last_update_from_server[0] === -1){
+            last_update_from_server = msg.last_update
+            return [true, false, last]
+        }
+        if (last_update_from_server[1] === msg.last_update[1]-1){
+            last_update_from_server = msg.last_update
+            return [true, true, last]
+        }
+        last_update_from_server = msg.last_update
+        return [false, false, false]
+    }
+    return [true, false, last]
+}
+
+let conflicted = false
+
 
 function join(cntn=false){
     switch (role){
@@ -412,6 +415,9 @@ function update_spectator_count(count){
 function update_game_list(games){
     let table = ""
     for (let g = 0; g < games.length; g++ ){
+        if (games[g]["teams"].length !== 2){
+            continue
+        }
         var d = new Date(0);
         d.setUTCSeconds(games[g]["edited"]);
         table += "<tr>" +
