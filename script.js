@@ -87,10 +87,11 @@ let last_update_from_server = [-1,-1]
 let waiting_response = {
 
 }
-
-const socket = new WebSocket('wss://fbstats.jsloth.fi');
-// Connection opened
-socket.addEventListener('open', function (event) {
+let socket
+function connect() {
+    socket = new WebSocket('wss://fbstats.jsloth.fi');
+    // Connection opened
+    socket.addEventListener('open', function (event) {
     is_online = true
     $("#status_offline").addClass("hideself")
     $("#status_online").removeClass("hideself")
@@ -107,18 +108,22 @@ socket.addEventListener('open', function (event) {
         send_data("get_games", {});
     }
 
-});
-socket.addEventListener('close', function () {
+    });
+    socket.addEventListener('close', function () {
     is_online = false
     $("#status_offline").removeClass("hideself")
     $("#status_online").addClass("hideself")
     $("#spectator_count").addClass("hideself")
     setTimeout(function (){
-        socket.connect()
+        connect()
     }, 1000)
-});
+    });
+}
+
+connect();
+
 socket.addEventListener('error', function (err) {
-    log(1, 'Socket encountered error: ' + err.message + ' Closing socket');
+    log(0, 'Socket encountered error: ' + err.message + ' Closing socket');
     socket.close();
 });
 // Listen for messages
